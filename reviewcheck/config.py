@@ -10,7 +10,11 @@ class Config:
     """Class for interacting with the configuration file."""
 
     def __init__(self, reconfigure: bool):
-        """Set initial variable state for the Config class."""
+        """Set initial variable state for the Config class.
+
+        :param reconfigure: Whether or not the user has requested to
+            update the configuration of reviewcheck.
+        """
         self.reconfigure = reconfigure
 
     def setup_configuration(self) -> None:

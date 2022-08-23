@@ -124,7 +124,10 @@ def get_rows_highlighting(
 
 
 def configure() -> int:
-    """Set up the configuration of reviewcheck."""
+    """Set up the configuration of reviewcheck.
+
+    :return: Always returns 0.
+    """
     Config(True).setup_configuration()
     return 0
 
@@ -134,7 +137,15 @@ def get_info_box_title(
     jira_ticket_number: Optional[str],
     color: str,
 ) -> str:
-    """Return the info box title with rich text configuration."""
+    """Return the info box title with rich text configuration.
+
+    :param mr: Data about the mr to construct title for.
+    :param jira_ticket_number: The JIRA ticket number associated with
+        the MR.
+    :param color: Color to use for the title when printing.
+
+    :return: The formatted title to use for the info box.
+    """
     title_elements = [
         f"[bold {color}]{mr['mr_data']['title']}",
         f"!{mr['mr_data']['iid']}",
@@ -154,7 +165,21 @@ def get_info_box_content(
     n_your_notes: int,
     n_response_required: int,
 ) -> str:
-    """Return the content of the info box for an MR."""
+    """Return the content of the info box for an merge request.
+
+    :param mr: Data for the merge request in question.
+    :param jira_url: URL to JIRA ticket associated with the merge
+        request, or replacement text.
+    :param jira: JIRA ticket number.
+    :param n_all_notes: Number of threads on the merge request.
+    :param n_your_notes: Number of threads on the merge request where
+        the user is involved.
+    :param n_response_required: Number of threads on the merge request
+        where the user is involved and hasn't replied to a message.
+
+    :return: The text to put in the info box for the given merge
+        request.
+    """
     return (
         f"Open discussions: {n_all_notes}"
         f"\nOpen discussions where you are involved: {n_your_notes}"
@@ -169,7 +194,11 @@ def get_info_box_content(
 
 
 def read_comment_note_ids_from_file() -> Set[str]:
-    """Read stored comment note IDs from last check."""
+    """Read stored comment note IDs from last check.
+
+    :return: The IDs of those comments that were considered in need of a
+        reply on the last run of reviewcheck.
+    """
     old_comment_note_ids: Set[str] = set()
     try:
         with open(Constants.COMMENT_NOTE_IDS_PATH) as f:
@@ -184,14 +213,21 @@ def read_comment_note_ids_from_file() -> Set[str]:
 
 
 def write_comment_note_ids_to_file(new_comment_note_ids: Set[str]) -> None:
-    """Write all the comment note IDs from the last run to file."""
+    """Write all the comment note IDs from the last run to file.
+
+    :param new_comment_note_ids: The IDs of the comments that are
+        considered in need of a reply during this run of reviewcheck.
+    """
     with open(Constants.COMMENT_NOTE_IDS_PATH, "w") as f:
         for id in new_comment_note_ids:
             f.write(f"{id}\n")
 
 
 def show_reviews(config: Dict[str, Any]) -> None:
-    """Download MR data and present review info for each relevant MR."""
+    """Download MR data and present review info for each relevant MR.
+
+    :param config: The resolved configuration of reviewcheck.
+    """
     secret_token = config["secret_token"]
     api_url = config["api_url"]
     jira_url = config["jira_url"]
