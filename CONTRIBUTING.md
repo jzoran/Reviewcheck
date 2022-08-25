@@ -23,3 +23,8 @@ is a way to suggest changes to this repository. The pull request should state cl
 what changes will be made to the project if it is merged. Keep your commits as focused
 as possible, with one commit doing one thing instead of adding multiple functionalities
 in one commit.
+
+If your pull requests produces visual changes, it is recommended to include
+a screeshot of the changes so that reviewers can review it from this
+perspective as well. Make sure to not include any sensitive information in your
+screenshot.
